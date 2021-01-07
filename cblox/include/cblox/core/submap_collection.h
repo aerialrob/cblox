@@ -140,6 +140,9 @@ class SubmapCollection : public SubmapCollectionInterface {
   // Flattens the collection map down to a normal TSDF map
   TsdfMap::Ptr getProjectedMap() const;
 
+  // Flattens the collection map down to a normal ESDF map
+  EsdfMap::Ptr getProjectedEsdfMap() const;
+
   // Gets the combined memory size of the layers in this collection.
   size_t getMemorySize() const;
 
