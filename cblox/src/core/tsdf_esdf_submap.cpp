@@ -9,9 +9,16 @@ void TsdfEsdfSubmap::generateEsdf() {
                                           tsdf_map_->getTsdfLayerPtr(),
                                           esdf_map_->getEsdfLayerPtr());
   // Generate the ESDF.
-  std::cout << "Generating ESDF from TSDF for submap with ID: " << submap_id_ << "\n";
   LOG(INFO) << "Generating ESDF from TSDF for submap with ID: " << submap_id_;
   esdf_integrator.updateFromTsdfLayerBatch();
+}
+
+void TsdfEsdfSubmap::updateFreeSpaceEsdf(const voxblox::Point current_position) {
+
+  voxblox::EsdfIntegrator esdf_integrator(esdf_integrator_config_,
+                                          tsdf_map_->getTsdfLayerPtr(),
+                                          esdf_map_->getEsdfLayerPtr());
+  esdf_integrator.addNewRobotPosition(current_position);
 }
 
 void TsdfEsdfSubmap::finishSubmap() { generateEsdf(); }

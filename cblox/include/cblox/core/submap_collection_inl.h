@@ -208,8 +208,6 @@ TsdfMap::Ptr SubmapCollection<SubmapType>::getProjectedMap() const {
     // Getting the tsdf submap and its pose
     const TsdfMap& tsdf_map = (id_submap_pair.second)->getTsdfMap();
     const Transformation& T_G_S = (id_submap_pair.second)->getPose();
-    //std::cout << "Tsdf map allocated blocks "
-    //          << tsdf_map.getTsdfLayer().getNumberOfAllocatedBlocks() << "\n";
     // Merging layers the submap into the global layer
     mergeLayerAintoLayerB(tsdf_map.getTsdfLayer(), T_G_S,
                           combined_tsdf_layer_ptr);
@@ -230,12 +228,10 @@ EsdfMap::Ptr SubmapCollection<SubmapType>::getProjectedEsdfMap() const {
   for (const auto& id_submap_pair : id_to_submap_) {
     // Getting the tsdf submap and its pose
     const EsdfMap& esdf_map = (id_submap_pair.second)->getEsdfMap();
-    std::cout << "Esdf map allocated blocks "
-              << esdf_map.getEsdfLayer().getNumberOfAllocatedBlocks() << "\n";
     const Transformation& T_G_S = (id_submap_pair.second)->getPose();
     // Merging layers the submap into the global layer
     mergeLayerAintoLayerB(esdf_map.getEsdfLayer(), T_G_S,
-                          combined_esdf_layer_ptr, true);
+                          combined_esdf_layer_ptr);
   }
   // Returning the new map
   return projected_esdf_map_ptr;
