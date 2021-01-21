@@ -48,7 +48,8 @@ class TsdfEsdfSubmap : public TsdfSubmap {
   void generateEsdf();
 
   // Add clear sphere around the current position in the esdf map
-  void updateFreeSpaceEsdf(const voxblox::Point current_position);
+  void updateFreeSpaceEsdf(const voxblox::Point current_position,  Layer<EsdfVoxel>* esdf_layer, Layer<TsdfVoxel>* tsdf_layer);
+  //void updateFreeSpaceEsdf(const voxblox::Point current_position, const Transformation& T_O_B);
   
   // Returns the underlying ESDF map pointers
   EsdfMap::Ptr getEsdfMapPtr() { return esdf_map_; }
