@@ -13,20 +13,22 @@ void TsdfEsdfSubmap::generateEsdf() {
   esdf_integrator.updateFromTsdfLayerBatch();
 }
 
-void TsdfEsdfSubmap::updateFreeSpaceEsdf(const voxblox::Point current_position, Layer<EsdfVoxel>* esdf_layer, Layer<TsdfVoxel>* tsdf_layer) {
-
+void TsdfEsdfSubmap::updateFreeSpaceEsdf(const voxblox::Point current_position,
+                                         const Transformation& T_O_B,
+                                             Layer<EsdfVoxel>* esdf_layer,
+                                         Layer<TsdfVoxel>* tsdf_layer) {
   voxblox::EsdfIntegrator esdf_integrator(esdf_integrator_config_,
                                           tsdf_layer,
                                           esdf_layer);
   //std::cout << "Voxel size " << esdf_map_->voxel_size() << "\n";
 
-  //Eigen::Quaterniond quat{T_O_B.getRotation().w(), T_O_B.getRotation().x(),
-  //                        T_O_B.getRotation().y(), T_O_B.getRotation().z()};
+  Eigen::Quaterniond quat{T_O_B.getRotation().w(), T_O_B.getRotation().x(),
+                          T_O_B.getRotation().y(), T_O_B.getRotation().z()};
   // Transform it to camera_link ref. frame. Now, it is in
   // /camera_depth_optical_frame
   //Eigen::Quaterniond quat_rot1{0.707, 0.0, 0.0, 0.707};
   //Eigen::Quaterniond quat_mult = quat_rot1 * quat;
-  esdf_integrator.addNewRobotPosition(current_position);
+  esdf_integrator.addNewRobotPosition(current_position, quat);
 }
 
 void TsdfEsdfSubmap::finishSubmap() { generateEsdf(); }
